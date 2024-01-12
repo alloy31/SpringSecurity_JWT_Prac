@@ -4,6 +4,7 @@ import org.apache.catalina.User;
 import org.example.springsecurity_jwt_prac.dto.JoinDTO;
 import org.example.springsecurity_jwt_prac.entity.UserEntity;
 import org.example.springsecurity_jwt_prac.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,9 +12,11 @@ public class JoinService {
 
     //주입
     private final UserRepository userRepository;
-    public JoinService(UserRepository userRespository){
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    public JoinService(UserRepository userRespository, BCryptPasswordEncoder bCryptPasswordEncoder){
 
         this.userRepository = userRespository;//초기화
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 
     }
 
@@ -35,7 +38,7 @@ public class JoinService {
         UserEntity data = new UserEntity();
 
         data.setUsername(username);
-        data.setPassword();//패스워드는 인코딩 해야함
+        data.setPassword(bCryptPasswordEncoder.encode(password));//패스워드는 인코딩 해야함
         data.setRole("ROLE_ADMIN");
 
 
