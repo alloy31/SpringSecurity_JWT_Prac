@@ -13,9 +13,9 @@ public class JoinService {
     //주입
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    public JoinService(UserRepository userRespository, BCryptPasswordEncoder bCryptPasswordEncoder){
+    public JoinService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
 
-        this.userRepository = userRespository;//초기화
+        this.userRepository = userRepository;//초기화
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 
     }
