@@ -41,6 +41,7 @@ public class JoinService {
         data.setPassword(bCryptPasswordEncoder.encode(password));//패스워드는 인코딩 해야함
         data.setRole("ROLE_ADMIN");
 
+        userRepository.save(data);
 
     }
 }
