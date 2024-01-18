@@ -40,6 +40,7 @@ public class JoinService {
         data.setUsername(username);
         data.setPassword(bCryptPasswordEncoder.encode(password));//패스워드는 인코딩 해야함
         data.setRole("ROLE_ADMIN");
+        //유저 네임과 패스워드를 요청받아서 넣을거임
 
         userRepository.save(data);
 
