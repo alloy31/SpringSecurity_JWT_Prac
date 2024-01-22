@@ -1,5 +1,6 @@
 package org.example.springsecurity_jwt_prac.dto;
 
+import lombok.ToString;
 import org.example.springsecurity_jwt_prac.entity.UserEntity;
 import org.example.springsecurity_jwt_prac.service.CustomUserDetailsService;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@ToString
 public class CustomUserDetails implements UserDetails {
 
     private final UserEntity userEntity;
@@ -20,13 +22,8 @@ public class CustomUserDetails implements UserDetails {
 
         Collection<GrantedAuthority> collection = new ArrayList<>();
 
-        collection.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return userEntity.getRole();
-            }
-        });
-        return null;
+        collection.add((GrantedAuthority) userEntity::getRole);
+        return collection;
     }
 
     @Override
