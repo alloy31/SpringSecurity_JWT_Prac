@@ -1,7 +1,7 @@
 package org.example.springsecurity_jwt_prac.service;
 
 import org.example.springsecurity_jwt_prac.dto.CustomUserDetails;
-import org.example.springsecurity_jwt_prac.entity.UserEntity;
+import org.example.springsecurity_jwt_prac.entity.Member;
 import org.example.springsecurity_jwt_prac.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserEntity userData = userRepository.findByUsername(username);
+        Member userData = userRepository.findByUsername(username);
 
         if(userData != null) {
             return new CustomUserDetails(userData);

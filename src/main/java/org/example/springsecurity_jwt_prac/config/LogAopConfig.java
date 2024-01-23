@@ -8,12 +8,11 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-
 import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.UUID;
-
+//콘솔창에 프린트가 아닌 로그를 띄워서 디버깅을 쉽게한다.
 @Slf4j
 @Aspect
 @Component
@@ -22,7 +21,7 @@ public class LogAopConfig {
     private final ThreadLocal<Deque<Long>> callStack = ThreadLocal.withInitial(ArrayDeque::new);
     private final ThreadLocal<String> traceId = new ThreadLocal<>();
 
-    // team.luckyturkey.cachepractice 이하 패키지의 모든 클래스 이하 모든 메서드에 적용
+    // org.example.springsecurity_jwt_prac 이하 패키지의 모든 클래스 이하 모든 메서드에 적용
     @Pointcut("execution(* org.example.springsecurity_jwt_prac..*.*(..))")
     private void cut() {
     }
