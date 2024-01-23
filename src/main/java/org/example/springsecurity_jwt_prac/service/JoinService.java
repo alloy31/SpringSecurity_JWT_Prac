@@ -1,9 +1,8 @@
 package org.example.springsecurity_jwt_prac.service;
 
-import org.apache.catalina.User;
 import org.example.springsecurity_jwt_prac.dto.JoinDTO;
-import org.example.springsecurity_jwt_prac.entity.UserEntity;
-import org.example.springsecurity_jwt_prac.repository.UserRepository;
+import org.example.springsecurity_jwt_prac.entity.Member;
+import org.example.springsecurity_jwt_prac.repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +10,9 @@ import org.springframework.stereotype.Service;
 public class JoinService {
 
     //주입
-    private final UserRepository userRepository;
+    private final MemberRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    public JoinService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
+    public JoinService(MemberRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
 
         this.userRepository = userRepository;//초기화
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -25,20 +24,20 @@ public class JoinService {
         //앞단에서 날라오는 DTO를 받아야함
 
 
-        String username = joinDTO.getUsername();
+        String membername = joinDTO.getUsername();
         String password = joinDTO.getPassword();
         //이후 유저 중복체크 메서드 만들러 감
 
-        Boolean isExist = userRepository.existsByUsername(username);
+        Boolean isExist = userRepository.existsByMemberLoginId(membername);
 
         if(isExist){
             return; //false ㄴㄴ
         }
 
-        UserEntity data = new UserEntity();
+        Member data = new Member();
 
-        data.setUsername(username);
-        data.setPassword(bCryptPasswordEncoder.encode(password));//패스워드는 인코딩 해야함
+        data.setMemberName(membername);
+        data.setMemberPassword(bCryptPasswordEncoder.encode(password));//패스워드는 인코딩 해야함
         data.setRole("ROLE_ADMIN");
         //유저 네임과 패스워드를 요청받아서 넣을거임
 

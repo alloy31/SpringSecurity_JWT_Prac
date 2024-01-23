@@ -57,8 +57,8 @@ public class JWTFilter extends OncePerRequestFilter {
 
         //member를 생성하여 값 set
         Member member = new Member();
-        member.setUsername(username);
-        member.setPassword("temppassword");
+        member.setMemberName(username);
+        member.setMemberPassword("temppassword");
         member.setRole(role);
 
         //UserDetails에 회원 정보 객체 담기
