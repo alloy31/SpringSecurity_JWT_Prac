@@ -1,18 +1,20 @@
 package org.example.springsecurity_jwt_prac.controller;
 
+import lombok.RequiredArgsConstructor;
+import org.example.springsecurity_jwt_prac.dto.JoinDTO;
+import org.example.springsecurity_jwt_prac.service.JoinService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-@Controller
-@ResponseBody
-public class MainController {
+@RestController
+@RequiredArgsConstructor
+public class MemberController {
     @GetMapping("/")
     public String mainP(){
 
@@ -31,6 +33,19 @@ public class MainController {
 
         return "Main Controller : "+ name +" " + role;
     }
+
+
+    private final JoinService joinService;
+
+    @PostMapping("/join")
+    public String joinProcess(JoinDTO joinDTO){
+
+        System.out.println(joinDTO.getUsername());
+        joinService.joinProcess(joinDTO);
+
+        return "OK";
+    }
+
 
 
 }
