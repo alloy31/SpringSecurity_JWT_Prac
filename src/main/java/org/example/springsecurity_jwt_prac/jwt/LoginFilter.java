@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.example.springsecurity_jwt_prac.dto.CustomUserDetails;
+import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,26 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
 
+    private static final String SPRING_SECURITY_FORM_MEMBERLOGINID_KEY = "memberLoginId";
+    private static final String SPRING_SECURITY_FORM_MEMBERPASSWORD_KEY = "memberPassword";
+
+
+    //새로운 파라미터 생성
+    private String memberLoginIdParameter = SPRING_SECURITY_FORM_MEMBERLOGINID_KEY;
+    private String memberPasswordParameter = SPRING_SECURITY_FORM_MEMBERPASSWORD_KEY;
+
+
+    //아이디와 패스워드를 request에서 받아오기
+    @Nullable
+    protected String obtainMemberLoginId(HttpServletRequest request) {
+        return request.getParameter(this.memberLoginIdParameter);
+    }
+
+    @Nullable
+    protected String obtainMemberPassword(HttpServletRequest request) {
+        return request.getParameter(this.memberPasswordParameter);
+    }
+
     public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil){
 
         this.authenticationManager = authenticationManager;
@@ -30,14 +51,14 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        //클라이언트 요청에서 username, password 추출
-        String memberLoginId = obtainUsername(request);
-        String password = obtainPassword(request);
+        //클라이언트 요청에서 memberLoginId, memberPassword 추출
+        String memberLoginId = obtainMemberLoginId(request);
+        String memberPassword = obtainMemberPassword(request);
 
         log.info("LoginFilter.attemptAuthentication() memberLoginId = {}", memberLoginId);
 
         //스프링 시큐리티에서 username과 password를 검증하기 위해서는 token에 담아야 함
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(memberLoginId, password, null);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(memberLoginId, memberPassword, null);
 
         //token에 담은 검증을 위한 AuthenticationManager로 전달
         return authenticationManager.authenticate(authToken);
