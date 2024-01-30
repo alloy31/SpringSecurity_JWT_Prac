@@ -2,11 +2,13 @@ package org.example.springsecurity_jwt_prac.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.springsecurity_jwt_prac.dto.JoinDTO;
+import org.example.springsecurity_jwt_prac.dto.LoginDTO;
 import org.example.springsecurity_jwt_prac.service.JoinService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -38,12 +40,29 @@ public class MemberController {
     private final JoinService joinService;
 
     @PostMapping("/join")
-    public String joinProcess(JoinDTO joinDTO){
+    public ResponseEntity<?> joinProcess(JoinDTO joinDTO){
 
-        System.out.println(joinDTO.getUsername());
-        joinService.joinProcess(joinDTO);
+        System.out.println(joinDTO.getMemberName());
+        String status = joinService.joinProcess(joinDTO);
 
-        return "OK";
+        switch (status){
+
+            case "null exists" :
+                return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
+            case "ID exists" :
+                return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
+            case "Join success" :
+                return new ResponseEntity<> (HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginProcess(LoginDTO loginDTO){
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
     }
 
 

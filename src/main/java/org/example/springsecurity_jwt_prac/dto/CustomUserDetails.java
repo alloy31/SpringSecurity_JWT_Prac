@@ -2,7 +2,6 @@ package org.example.springsecurity_jwt_prac.dto;
 
 import lombok.ToString;
 import org.example.springsecurity_jwt_prac.entity.Member;
-import org.example.springsecurity_jwt_prac.service.CustomUserDetailsService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,6 +16,8 @@ public class CustomUserDetails implements UserDetails {
     public CustomUserDetails(Member member){
         this.member = member;
     }
+
+    //유저 권한 가져오기
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
@@ -33,6 +34,10 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
+        return null;
+    }
+
+    public String getMemberLoginId(){
         return null;
     }
 
