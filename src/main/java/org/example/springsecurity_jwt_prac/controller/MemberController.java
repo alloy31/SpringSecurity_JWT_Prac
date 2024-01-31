@@ -40,8 +40,8 @@ public class MemberController {
     private final MemberService memberService;
 
 
-    @GetMapping("/")
-    public ResponseEntity<List<Member>> getAllUsers() {
+    @GetMapping("/") //멤버 전체 불러오기
+    public ResponseEntity<List<Member>> getAllMembers() {
         List<Member> memberList = memberService.getAllMembers();
 
         // 사용자 목록을 반환하거나, 비어있는 경우 NOT_FOUND(404)를 반환할 수도 있습니다.
@@ -49,6 +49,7 @@ public class MemberController {
                 ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(memberList);
     }
+
     @PostMapping("/join")
     public ResponseEntity<?> joinProcess(JoinRequestDto joinRequestDto){
 
@@ -70,15 +71,14 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //회원 탈퇴
+    //todo : 회원 탈퇴
     //현재 로그인 사용자 == 탈퇴할 사용자
     //토큰이 만료되지 않았어야함
 
-    //회원 정보 수정
+    //todo : 회원 정보 수정
     //현재 로그인 사용자 == 수정할 사용자
     //토큰이 만료되지 않았어야함
 
-    //모든 사용자 검색
 
 
 
