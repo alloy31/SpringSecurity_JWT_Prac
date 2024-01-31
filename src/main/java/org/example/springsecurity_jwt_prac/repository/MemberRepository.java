@@ -14,4 +14,6 @@ public interface MemberRepository extends JpaRepository<Member, Integer> { // JP
     @Query("select m from Member m join fetch m.memberRole where m.memberLoginId = :memberLoginId")
     Member findByMemberLoginId(String memberLoginId);
 
+    //이런 쿼리가 피료한건 조인이 필요한 연산이거나
+    //너무 복잡한거
 }
