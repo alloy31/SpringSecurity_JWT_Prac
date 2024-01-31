@@ -3,7 +3,6 @@ package org.example.springsecurity_jwt_prac.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.springsecurity_jwt_prac.JoinRequestStatus;
 import org.example.springsecurity_jwt_prac.dto.JoinRequestDto;
-import org.example.springsecurity_jwt_prac.dto.LoginDTO;
 import org.example.springsecurity_jwt_prac.service.JoinService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,25 +44,14 @@ public class MemberController {
 
         JoinRequestStatus status = joinService.joinProcess(joinRequestDto);
 
-        switch (status){
+        return switch (status) {
+            case NULL_EXIST -> new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            case ID_DUPLICATED -> new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            case JOIN_SUCCESS -> new ResponseEntity<>(HttpStatus.OK);
+        };
 
-            case  NULL_EXIST:
-                return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
-            case ID_DUPLICATED:
-                return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
-            case JOIN_SUCCESS:
-                return new ResponseEntity<> (HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> loginProcess(LoginDTO loginDTO){
-//
-//        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//
-//    }
 
 
 

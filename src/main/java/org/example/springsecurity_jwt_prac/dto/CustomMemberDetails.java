@@ -1,6 +1,7 @@
 package org.example.springsecurity_jwt_prac.dto;
 
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springsecurity_jwt_prac.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
+@Slf4j
 @ToString
 public class CustomMemberDetails implements UserDetails {
 
@@ -24,6 +25,7 @@ public class CustomMemberDetails implements UserDetails {
 
         List<GrantedAuthority> authorityList = new ArrayList<>();
 
+        log.debug("login user role = {}", member.getMemberRole());
         authorityList.add((GrantedAuthority) member::getMemberRole);
         return authorityList;
     }

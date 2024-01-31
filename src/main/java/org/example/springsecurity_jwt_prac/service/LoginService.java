@@ -1,6 +1,6 @@
 package org.example.springsecurity_jwt_prac.service;
 
-import org.example.springsecurity_jwt_prac.dto.LoginDTO;
+import org.example.springsecurity_jwt_prac.dto.LoginDto;
 import org.example.springsecurity_jwt_prac.entity.Member;
 import org.example.springsecurity_jwt_prac.repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +18,7 @@ public class LoginService {
 
 
 
-    public void loginProcess(LoginDTO loginDTO){
+    public void loginProcess(LoginDto loginDTO){
 
         String memberLoginId = loginDTO.getMemberLoginId();
         String memberPassword = loginDTO.getMemberPassword();

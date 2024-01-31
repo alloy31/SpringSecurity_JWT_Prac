@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springsecurity_jwt_prac.dto.CustomMemberDetails;
 import org.example.springsecurity_jwt_prac.entity.Member;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Slf4j
 public class JWTFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
@@ -37,7 +39,6 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        System.out.println("authorization now");
         //Bearer 부분 제거 후 순수 토큰만 획득
         String token = authorization.split(" ")[1];
 
@@ -52,14 +53,17 @@ public class JWTFilter extends OncePerRequestFilter {
         }
         //토큰에서 memberName과 memberRole 획득
         String memberName = jwtUtil.getMemberName(token);
-        String role = jwtUtil.getMemberRole(token);
-
+        String memberRole = jwtUtil.getMemberRole(token);
+        log.info("memberName ={}", memberName);
+        log.info("memberRole ={}", memberRole);
         //member를 생성하여 값 set
         Member member = new Member();
         member.setMemberName(memberName);
         member.setMemberPassword("temppassword");
-        member.setMemberRole(role);
+        member.setMemberRole(memberRole);
 
+        log.info("member.memberName={}", member.getMemberName());
+        log.info("member.memberRole ={}", member.getMemberRole());
         //UserDetails에 회원 정보 객체 담기
         CustomMemberDetails customMemberDetails = new CustomMemberDetails(member);
 
