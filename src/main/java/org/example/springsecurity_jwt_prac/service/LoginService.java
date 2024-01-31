@@ -18,19 +18,16 @@ public class LoginService {
 
 
 
-    public String loginProcess(LoginDTO loginDTO){
+    public void loginProcess(LoginDTO loginDTO){
 
         String memberLoginId = loginDTO.getMemberLoginId();
         String memberPassword = loginDTO.getMemberPassword();
 
-        //비어있는 항목이 있을 때
+
 
         Member data = memberRepository.findByMemberLoginId(memberLoginId);
 
-        if(data != null){
-
-        }
-
+        //비어있는 항목이 있을 때
 
     }
 

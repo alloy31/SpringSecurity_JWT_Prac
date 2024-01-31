@@ -1,6 +1,7 @@
 package org.example.springsecurity_jwt_prac.service;
 
-import org.example.springsecurity_jwt_prac.dto.CustomUserDetails;
+import lombok.extern.slf4j.Slf4j;
+import org.example.springsecurity_jwt_prac.dto.CustomMemberDetails;
 import org.example.springsecurity_jwt_prac.entity.Member;
 import org.example.springsecurity_jwt_prac.repository.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class CustomMemberDetailsService implements UserDetailsService {
 
@@ -23,10 +25,13 @@ public class CustomMemberDetailsService implements UserDetailsService {
         //DB에서 조회
         Member memberData = memberRepository.findByMemberLoginId(memberLoginId);
 
+        //아이디를 가진 사용자가 있으면
         if(memberData != null) {
-
-            return new CustomUserDetails(memberData);
+            if(memberData.getMemberIsAvailable() == 1) return null;
+            return new CustomMemberDetails(memberData);
         }
+
+        //아이디를 가진 사용자가 없으면
         return null;
     }
 }

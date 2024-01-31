@@ -1,7 +1,8 @@
 package org.example.springsecurity_jwt_prac.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.springsecurity_jwt_prac.dto.JoinDTO;
+import org.example.springsecurity_jwt_prac.JoinRequestStatus;
+import org.example.springsecurity_jwt_prac.dto.JoinRequestDto;
 import org.example.springsecurity_jwt_prac.dto.LoginDTO;
 import org.example.springsecurity_jwt_prac.service.JoinService;
 import org.springframework.http.HttpStatus;
@@ -40,30 +41,29 @@ public class MemberController {
     private final JoinService joinService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> joinProcess(JoinDTO joinDTO){
+    public ResponseEntity<?> joinProcess(JoinRequestDto joinRequestDto){
 
-        System.out.println(joinDTO.getMemberName());
-        String status = joinService.joinProcess(joinDTO);
+        JoinRequestStatus status = joinService.joinProcess(joinRequestDto);
 
         switch (status){
 
-            case "null exists" :
+            case  NULL_EXIST:
                 return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
-            case "ID exists" :
+            case ID_DUPLICATED:
                 return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
-            case "Join success" :
+            case JOIN_SUCCESS:
                 return new ResponseEntity<> (HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginProcess(LoginDTO loginDTO){
-
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> loginProcess(LoginDTO loginDTO){
+//
+//        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//
+//    }
 
 
 

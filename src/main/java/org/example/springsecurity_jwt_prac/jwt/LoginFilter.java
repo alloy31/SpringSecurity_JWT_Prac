@@ -4,7 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.example.springsecurity_jwt_prac.dto.CustomUserDetails;
+import org.example.springsecurity_jwt_prac.dto.CustomMemberDetails;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -56,11 +56,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String memberPassword = obtainMemberPassword(request);
 
         log.info("LoginFilter.attemptAuthentication() memberLoginId = {}", memberLoginId);
+        log.info("LoginFilter.attemptAuthentication() memberPassword = {}", memberPassword);
 
         //스프링 시큐리티에서 username과 password를 검증하기 위해서는 token에 담아야 함
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(memberLoginId, memberPassword, null);
-
+        log.info("authToken = {}",authToken);
         //token에 담은 검증을 위한 AuthenticationManager로 전달
+        //authenticationManager가 검증 해줍니다.
         return authenticationManager.authenticate(authToken);
 
     }
@@ -69,9 +71,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
 
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        CustomMemberDetails customMemberDetails = (CustomMemberDetails) authentication.getPrincipal();
 
-        String memberName = customUserDetails.getUsername();
+        String memberName = customMemberDetails.getUsername();
 
         //role 값 뽑아내기
         log.info("LoginFilter.successfulAuthentication() authentication = {}", authentication);

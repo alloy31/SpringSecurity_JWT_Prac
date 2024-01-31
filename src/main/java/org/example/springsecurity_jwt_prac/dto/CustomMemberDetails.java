@@ -7,38 +7,39 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @ToString
-public class CustomUserDetails implements UserDetails {
+public class CustomMemberDetails implements UserDetails {
 
     private final Member member;
 
-    public CustomUserDetails(Member member){
+    public CustomMemberDetails(Member member){
         this.member = member;
     }
 
     //유저 권한 가져오기
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public List<? extends GrantedAuthority> getAuthorities() {
 
-        Collection<GrantedAuthority> collection = new ArrayList<>();
+        List<GrantedAuthority> authorityList = new ArrayList<>();
 
-        collection.add((GrantedAuthority) member::getRole);
-        return collection;
+        authorityList.add((GrantedAuthority) member::getMemberRole);
+        return authorityList;
     }
+
+    public String getMemberPassword() {return member.getMemberPassword();}
+
+    public String getMemberLoginId(){ return member.getMemberLoginId();}
 
     @Override
     public String getPassword() {
-        return null;
+        return member.getMemberPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
-    }
-
-    public String getMemberLoginId(){
-        return null;
+        return member.getMemberLoginId();
     }
 
 
